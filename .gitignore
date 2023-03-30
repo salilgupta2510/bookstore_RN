@@ -20,7 +20,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-ios/.xcode.env.local
+project.xcworkspace
 
 # Android/IntelliJ
 #
@@ -29,16 +29,25 @@ build/
 .gradle
 local.properties
 *.iml
-*.hprof
-.cxx/
-*.keystore
-!debug.keystore
+.project
+android/.settings/org.eclipse.buildship.core.prefs
+android/app/.settings/org.eclipse.buildship.core.prefs
+android/google-pay-client-api-1.0.0/.settings/org.eclipse.buildship.core.prefs
+android/app/.classpath
+
+# Visual Studio Code
+#
+.vscode/
 
 # node.js
 #
 node_modules/
 npm-debug.log
 yarn-error.log
+
+# BUCK
+buck-out/
+\.buckd/
 
 # fastlane
 #
@@ -47,17 +56,30 @@ yarn-error.log
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/
 
-**/fastlane/report.xml
-**/fastlane/Preview.html
-**/fastlane/screenshots
-**/fastlane/test_output
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
 
 # Bundle artifact
 *.jsbundle
 
-# Ruby / CocoaPods
+# CocoaPods
 /ios/Pods/
-/vendor/bundle/
 
-# Temporary files created by Metro to check the health of the file watcher
-.metro-health-check*
+#firebase log
+firebase-debug.log
+
+#functional tests
+functional_tests/bundle.zip
+functional_tests/node_modules
+functional_tests/.package.json.swp
+
+.husky
+#stacktrace- crash bugs
+stacktrace
+
+#eslint cache
+.eslintcache
+
+#mock files
+mocks/
