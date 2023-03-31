@@ -14,16 +14,16 @@ $ cd ios && pod install && cd ..
 ```
 
 ## Usage
-===> Start metro builder
+Start metro builder
 ```
 $ npm start
 ```
-===> For iOS
+For iOS
 ```
 $ npm run ios
 ```
 
-===> For Android
+For Android
 ```
 $ npm run android
 ```
