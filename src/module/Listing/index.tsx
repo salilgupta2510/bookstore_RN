@@ -11,29 +11,34 @@ const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient);
 
 const ListingScreen = (): JSX.Element => {
 
-    const [pageNumber, setPageNumber] = useState<number>(1);
-    const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
-    const [searchTitle, setSearchTitle] = useState<string>('Harry Potter')
-    const [bookDetails, setBookDetails] = useState<BookDetailsProps>();
-    const [showDetails, setShowDetails] = useState<boolean>(false);
-
-    const { list, fetchListByName, loading, cleanList, endOfList } = useStore((state) => ({
+    const { list, searchBy, searchString, fetchBookList, loading, cleanList, endOfList } = useStore((state) => ({
         list: state.bookList,
-        fetchListByName: state.fetchBookListByName,
+        searchBy: state.searchBy,
+        searchString: state.searchString,
+        fetchBookList: state.fetchBookList,
         loading: state.loading,
         cleanList: state.cleanList,
         endOfList: state.endOfList
     }))
 
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
+    const [bookDetails, setBookDetails] = useState<BookDetailsProps>();
+    const [showDetails, setShowDetails] = useState<boolean>(false);
+
     useEffect(() => {
-        fetchListByName({ title: searchTitle, pageNumber })
+        fetchBookList({ title: searchString, pageNumber, searchBy })
     }, [])
 
     useEffect(() => {
         if (pageNumber > 1) {
-            fetchListByName({ title: searchTitle, pageNumber: pageNumber + 1 })
+            fetchBookList({ title: searchString, pageNumber, searchBy })
         }
     }, [pageNumber])
+
+    useEffect(() => {
+        fetchBookList({ title: searchString, pageNumber, searchBy })
+    }, [searchString])
 
     const onClickItem = (item: any) => {
         setBookDetails({ 
@@ -87,7 +92,7 @@ const ListingScreen = (): JSX.Element => {
                         <RefreshControl
                             refreshing={loading}
                             onRefresh={() => {
-                                fetchListByName({ title: searchTitle, pageNumber })
+                                fetchBookList({ title: searchString, pageNumber, searchBy })
                             }}
                             tintColor="#ffffff"
                         />
@@ -95,7 +100,7 @@ const ListingScreen = (): JSX.Element => {
                     onEndReached={() => setPageNumber(pageNumber + 1)}
                     ListFooterComponent={() => {
                         if (endOfList) {
-                            <Text style={{ fontSize: fp(12), color: '#ffffff' }}>{'End of list'}</Text>
+                            return <Text style={styles.endOfList}>{'End of list'}</Text>
                         }
                         return <ActivityIndicator size={'small'} style={{ marginTop: spV(50), marginBottom: spV(100) }} />
                     }}
@@ -135,6 +140,14 @@ const styles = StyleSheet.create({
         marginTop: wp(15),
         textAlign: 'center',
         textDecorationLine: 'underline',
+    },
+    endOfList: {
+        marginTop: spV(25), 
+        marginBottom: spV(100) , 
+        fontSize: fp(12), 
+        color: '#ffffff', 
+        textAlign: 'center', 
+        fontWeight: '600' 
     }
 });
 

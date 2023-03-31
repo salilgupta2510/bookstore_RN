@@ -1,7 +1,5 @@
 import { Dimensions, PixelRatio } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
-
 type Mode = 'width' | 'height';
 type Scale = number;
 

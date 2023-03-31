@@ -18,7 +18,7 @@ const DetailsCard = ({label1, value1, label2, value2}: DetailsCardProps): JSX.El
                 </View>
                 <View style={[styles.card, {marginLeft: spH(5), marginRight: 0}]}>
                     <Text style={styles.heading}>{label2}</Text>
-                    <Text style={styles.value}>{value2}</Text>
+                    <Text numberOfLines={2} style={styles.value}>{value2}</Text>
                 </View>
             </View>
     );
@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
         color: '#494949',
         fontSize: fp(12),
         textAlign: 'center',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontWeight: '500'
     },
     value: {
         color: '#2c3e50',

@@ -44,10 +44,35 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0
   },
-  tabBarIconContainer: { alignItems: 'center', justifyContent: 'space-between', marginTop: spV(10) },
-  tabBarImage: { width: 20, height: 20, tintColor: '#2c3e50' },
-  tabBarLable: { fontWeight: '600', color: '#2c3e50', marginTop: spV(5) },
-  headerRightContainer: { marginRight: spH(20), flexDirection: 'row', alignItems: 'center'},
-  headerRightImage: {tintColor: '#2c3e50', width: 20, height: 20 },
-  headerRightText: { fontSize: fp(12), marginLeft: spH(5), fontWeight: '600', color:'#2c3e50' }
+  tabBarIconContainer: { 
+    alignItems: 'center', 
+    justifyContent: 'space-between', 
+    marginTop: spV(10) 
+  },
+  tabBarImage: { 
+    width: 20, 
+    height: 20, 
+    tintColor: '#2c3e50' 
+  },
+  tabBarLable: { 
+    fontWeight: '600', 
+    color: '#2c3e50', 
+    marginTop: spV(5) 
+  },
+  headerRightContainer: { 
+    marginRight: spH(20), 
+    flexDirection: 'row', 
+    alignItems: 'center'
+  },
+  headerRightImage: {
+    tintColor: '#2c3e50',
+     width: 20, 
+     height: 20 
+    },
+  headerRightText: { 
+    fontSize: fp(12), 
+    marginLeft: spH(5), 
+    fontWeight: '600', 
+    color:'#2c3e50' 
+  }
 })
