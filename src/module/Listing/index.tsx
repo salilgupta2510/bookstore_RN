@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, RefreshControl, Pressable } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, RefreshControl, Pressable, Platform } from 'react-native'
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder';
@@ -65,7 +65,7 @@ const ListingScreen = (): JSX.Element => {
                     <FastImage
                         source={imageProps}
                         style={styles.bookImage}
-                        resizeMode={FastImage.resizeMode.contain}
+                        resizeMode={Platform.OS == 'ios' ? FastImage.resizeMode.contain : FastImage.resizeMode.cover}
                         defaultSource={require('../../../assets/listing/placeholder.png')}
                         onLoadEnd={() => {
                             setIsImageLoaded(true)

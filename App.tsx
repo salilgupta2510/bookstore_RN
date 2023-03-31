@@ -28,6 +28,7 @@ const App = () => {
                             headerTitle: 'Book Search',
                             headerTitleStyle: styles.heading,
                             headerStyle: { backgroundColor: '#C2C7D5'},
+                            headerTitleAlign: 'center',
                             headerLeft: () => (
                                 <Pressable  
                                     style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}

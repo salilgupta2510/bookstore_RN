@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import BookDetails from '../module/Details';
 import ListingScreen from '../module/Listing';
 import { fp, hp, spH, spV, wp } from '../utils/normalize';
@@ -22,9 +22,10 @@ export const TabNaviagtor = () => {
             </Pressable>
           ),
           headerTitleStyle: styles.headerTitleStyle,
+          headerTitleAlign: 'center',
           tabBarStyle: styles.tabBarCustomStyle,
           tabBarIcon: () => (
-            <View style={styles.tabBarIconContainer}>
+            <View style={[styles.tabBarIconContainer, Platform.OS == 'ios' ? {marginTop: spV(15)} : null]}>
               <Image style={styles.tabBarImage} source={require('../../assets/bottomBar/explore.png')} />
               <Text style={styles.tabBarLable}>{`Explore`}</Text>
             </View>
@@ -38,6 +39,7 @@ export const TabNaviagtor = () => {
 const styles = StyleSheet.create({
   headerTitleStyle: { color: '#2c3e50' },
   tabBarCustomStyle: {
+    height: hp(60),
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     position: 'absolute',
     left: 0,
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
   tabBarIconContainer: { 
     alignItems: 'center', 
     justifyContent: 'space-between', 
-    marginTop: spV(10) 
+    marginVertical: spV(10), 
   },
   tabBarImage: { 
     width: 20, 

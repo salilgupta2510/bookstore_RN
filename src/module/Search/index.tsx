@@ -64,12 +64,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#C2C7D5',
     },
-    heading: { 
-        fontSize: fp(18), 
-        fontWeight: '600', 
-        color: '#2c3e50', 
-        textDecorationLine: 'underline'
-    },
     textInput: {
         width: '80%',
         height: hp(40),
