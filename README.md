@@ -8,12 +8,12 @@ This project features book search by name/author, with detail view.
 $ npm install
 ```
 
-ios ==> 
+For ios additional step 
 ```
 $ cd ios && pod install && cd ..
 ```
 
-## Usage
+## Usage/Run
 Start metro builder
 ```
 $ npm start
