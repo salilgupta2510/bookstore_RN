@@ -19,9 +19,11 @@ export const useStore = create<BookStore>((set) => ({
     endOfList: false,
     fetchBookListByName: ({ title, pageNumber }: FetchParams) => {
         set({ loading: true });
-        fetch(`https://openlibrary.org/search.json?title=${title}&page=${pageNumber}`)
+        fetch(`https://openlibrary.org/search.json?q=${title}&page=${pageNumber}`)
         .then((response) => response.json())
         .then((data) => {
+            console.log("data ====", data)
+
             set({ endOfList: data.docs.length == 0 })
             set((state) => {
                 const newData = [...state.bookList, ...data.docs]
@@ -29,6 +31,10 @@ export const useStore = create<BookStore>((set) => ({
             })
             set({ loading: false })
 
+        })
+        .catch(err => {
+            console.log("Error ====", err)
+            set({ loading: false })
         })
     },
     cleanList: () => set({bookList: []})

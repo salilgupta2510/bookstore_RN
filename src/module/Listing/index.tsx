@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, RefreshControl } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, RefreshControl, Pressable } from 'react-native'
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder';
 import { useStore } from '../../store/reducer';
 import { fp, hp, spH, spV, wp } from '../../utils/normalize';
+import CommonBlurModal from '../Common/CommonBlurModal';
+import BookDetails, { BookDetailsProps } from '../Details';
 const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient);
 
 const ListingScreen = (): JSX.Element => {
 
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
-    const [searchTitle, setSearchTitle] = useState<string>('flammable')
+    const [searchTitle, setSearchTitle] = useState<string>('Harry Potter')
+    const [bookDetails, setBookDetails] = useState<BookDetailsProps>();
+    const [showDetails, setShowDetails] = useState<boolean>(false);
 
     const { list, fetchListByName, loading, cleanList, endOfList } = useStore((state) => ({
         list: state.bookList,
@@ -26,15 +30,28 @@ const ListingScreen = (): JSX.Element => {
     }, [])
 
     useEffect(() => {
-        if(pageNumber > 1) {
+        if (pageNumber > 1) {
             fetchListByName({ title: searchTitle, pageNumber: pageNumber + 1 })
         }
     }, [pageNumber])
 
+    const onClickItem = (item: any) => {
+        setBookDetails({ 
+            imageUrl: `https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg`,
+            title: item.title,
+            authors: item.author_name,
+            firstPublishedIn: item.first_publish_year,
+            numberOfEditions: item.edition_count,
+            eBookCount: item.ebook_count_i,
+            publisher: item.publisher[item.publisher.length - 1]
+         })
+         setShowDetails(true);
+    }
+
     const renderBookItem = ({ item, index }: any) => {
-        const imageProps = item.ebook_count_i > 0 ? { uri: `https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg`, priority: FastImage.priority.high } : require('../../../assets/listing/placeholder.png')
+        const imageProps = item.ebook_count_i > 0 ? { uri: `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`, priority: FastImage.priority.high } : require('../../../assets/listing/placeholder.png')
         return (
-            <View key={`${item.title}_${index}_${item.key}`}
+            <Pressable onPress={() => onClickItem(item)} key={`${item.title}_${index}_${item.key}`}
                 style={styles.itemContainer}>
                 <ShimmerPlaceHolder
                     visible={isImageLoaded}
@@ -43,15 +60,15 @@ const ListingScreen = (): JSX.Element => {
                     <FastImage
                         source={imageProps}
                         style={styles.bookImage}
-                        resizeMode={FastImage.resizeMode.cover}
+                        resizeMode={FastImage.resizeMode.contain}
                         defaultSource={require('../../../assets/listing/placeholder.png')}
                         onLoadEnd={() => {
-                            setTimeout(() => setIsImageLoaded(true), 1000);
+                            setIsImageLoaded(true)
                         }}
                     />
                 </ShimmerPlaceHolder>
                 <Text numberOfLines={2} style={styles.title}>{item.title}</Text>
-            </View>
+            </Pressable>
         )
     }
 
@@ -63,10 +80,11 @@ const ListingScreen = (): JSX.Element => {
                     data={list}
                     renderItem={renderBookItem}
                     numColumns={2}
+                    keyExtractor={(item, index) => item.key + index}
                     style={styles.flatListContainer}
                     showsVerticalScrollIndicator={false}
                     refreshControl={
-                        <RefreshControl 
+                        <RefreshControl
                             refreshing={loading}
                             onRefresh={() => {
                                 fetchListByName({ title: searchTitle, pageNumber })
@@ -76,14 +94,17 @@ const ListingScreen = (): JSX.Element => {
                     }
                     onEndReached={() => setPageNumber(pageNumber + 1)}
                     ListFooterComponent={() => {
-                        if(endOfList) {
+                        if (endOfList) {
                             <Text style={{ fontSize: fp(12), color: '#ffffff' }}>{'End of list'}</Text>
-                        } 
-                        return <ActivityIndicator size={'small'} style={{ marginVertical: spV(50) }}/>
-                }}
+                        }
+                        return <ActivityIndicator size={'small'} style={{ marginTop: spV(50), marginBottom: spV(100) }} />
+                    }}
                     onEndReachedThreshold={0}
                 />
-                }
+            }
+            <CommonBlurModal visible={showDetails} handleCloseButton={() => setShowDetails(false)} >
+                <BookDetails {...bookDetails} />
+            </CommonBlurModal>
         </View>
     );
 };
