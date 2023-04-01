@@ -3,6 +3,12 @@
 ## Description
 This project features book search by name/author, with detail view.
 
+## Feature: 
+Book search by name
+Book search by author
+Pagination on reaching end of the list
+Pull to refresh
+
 ## Installation
 ```
 $ npm install
